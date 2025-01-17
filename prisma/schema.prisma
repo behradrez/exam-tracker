@@ -17,6 +17,10 @@ model Exam {
   exam_end          DateTime?           @db.Timestamp(6)
   course_code       String?
   course_name       String?
+  exam_type         String?
+  building          String?
+  room              String?
+  rows              String?
   UserFavoritedExam UserFavoritedExam[]
 }
 
@@ -51,6 +55,6 @@ model UserSession {
   expires_at    DateTime @db.Timestamp(6)
   user_id       BigInt
   token         String
-  is_terminated Boolean  @default(true)
+  is_terminated Boolean  @default(false)
   User          User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
 }
