@@ -22,7 +22,7 @@ export default function SearchBar({setNameFilter, toggleTracked} : SearchBarProp
             onChange={(e)=>toggleTracked()}/>
             <label 
             htmlFor="favorites"
-            className="ml-1 mr-2 pt-0.5">
+            className="ml-1 mr-2 pt-0.5 text-black font-serif font-medium">
                 Show Tracked Only
                 </label>
 

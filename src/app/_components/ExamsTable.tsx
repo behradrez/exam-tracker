@@ -69,7 +69,7 @@ export default function ExamsTable({displayedExams, nameFilter, showTracked}: Ex
     const keys = ['Code', 'Name', 'Start Time', 'End Time', 'Exam Type', 'Building', 'Room', 'Rows'];
     if(rows.length == 0){
         return (
-            <div className="justify-self-center">
+            <div className="justify-self-center text-black font-serif">
                 No exams found matching the filter.
             </div>
         )
@@ -80,13 +80,13 @@ export default function ExamsTable({displayedExams, nameFilter, showTracked}: Ex
             <table className="w-full shadow-2xl">
             <thead style={{position:'sticky'}}>
                 <tr>
-                {keys.map((col,idx) => <th key={idx} className="h-14 px-5 sticky top-0">{col}</th>)}
-                <th className="h-14 px-5 sticky top-0">Tracking</th>
+                {keys.map((col,idx) => <th key={idx} style={{background: "#293039"}} className="h-14 px-5 sticky top-0">{col}</th>)}
+                <th style={{background: "#293039"}} className="h-14 px-5 sticky top-0">Tracking</th>
                 </tr>
             </thead>
             <tbody>
                 {rows.filter(row => row !== undefined).map((row: { [key: string]: any }, idx) => (
-                <tr style={idx%2==0 ? { background:'#ff9e99'  } : {background: "#d05897"}}className={"h-16 items-center justify-center text-center "} key={idx}>
+                <tr style={idx%2==0 ? { background:'#997a80'  } : {background: "#a4b5c3"}}className={"h-16 items-center justify-center text-center "} key={idx}>
                     {keys.map((key)=>{
                         if(key === 'Start Time' || key === 'End Time'){
                             return (

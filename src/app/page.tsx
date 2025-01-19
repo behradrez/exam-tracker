@@ -6,9 +6,7 @@ export default function Home() {
     <div className=" items-center justify-items-center mt-0 overflow-hidden">
       <main className="min-w-full">
         <Header/>
-        <div>
-          <SearchableTable/>
-        </div>
+        <SearchableTable/>
       </main>
     </div>
   );
