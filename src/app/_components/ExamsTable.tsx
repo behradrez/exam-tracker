@@ -1,14 +1,10 @@
 'use client'
 
-import { DataGrid, GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
 import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon  from "@mui/icons-material/StarBorder"
 import { useEffect, useState } from "react";
 import { Box } from "@mui/material";
 import { Exam } from "@/types/exam";
-
-
-
 
 interface ExamsTableProps {
     displayedExams: Exam[];
@@ -19,11 +15,11 @@ interface ExamsTableProps {
 export default function ExamsTable({displayedExams, nameFilter, showTracked}: ExamsTableProps) { 
 
     const is_tracked = (id:bigint) => {
-        return localStorage.getItem(id.toString()) != null;
+        return localStorage.getItem(id.toString()) != null;    
     }
 
     const examToRow = (exams:typeof displayedExams) => {
-        return exams.map((exam, index)=>{
+        return exams.map((exam)=>{
             const combinedCourseCode = exam.course_code?.replace(' ', '').toLowerCase();
             if(nameFilter != '' 
                 && !exam.course_name?.toLowerCase().includes(nameFilter) 
@@ -80,17 +76,17 @@ export default function ExamsTable({displayedExams, nameFilter, showTracked}: Ex
     }
     return (
         
-        <Box sx={{ scrollbarColor:"",justifySelf:"center" ,maxHeight: 700, maxWidth: '100%', overflowY: 'auto', position: 'relative', borderRadius:2}}>
-            <table className="w-fit">
+        <Box sx={{ boxShadow:"5", scrollbarColor:"",justifySelf:"center" ,maxHeight: 700, width: '100%', overflowY: 'auto', position: 'relative', borderRadius:2}}>
+            <table className="w-full shadow-2xl">
             <thead style={{position:'sticky'}}>
                 <tr>
-                {keys.map((col,idx) => <th key={idx} className="bg-lime-600 px-5 sticky top-0">{col}</th>)}
-                <th className="bg-lime-600 px-5 sticky top-0">Tracking</th>
+                {keys.map((col,idx) => <th key={idx} className="h-14 px-5 sticky top-0">{col}</th>)}
+                <th className="h-14 px-5 sticky top-0">Tracking</th>
                 </tr>
             </thead>
             <tbody>
                 {rows.filter(row => row !== undefined).map((row: { [key: string]: any }, idx) => (
-                <tr className={"h-16 items-center justify-center text-center "+(idx % 2 === 0 ? "bg-cyan-900" : "bg-cyan-700")} key={idx}>
+                <tr style={idx%2==0 ? { background:'#ff9e99'  } : {background: "#d05897"}}className={"h-16 items-center justify-center text-center "} key={idx}>
                     {keys.map((key)=>{
                         if(key === 'Start Time' || key === 'End Time'){
                             return (

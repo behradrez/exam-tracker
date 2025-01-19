@@ -1,5 +1,3 @@
-import { ChangeEvent } from "react";
-
 interface SearchBarProps {
     setNameFilter: Function
     toggleTracked: Function
@@ -10,7 +8,6 @@ export default function SearchBar({setNameFilter, toggleTracked} : SearchBarProp
         setNameFilter(filter.toLowerCase());
     }
     
-
     return (
         <div className="justify-self-center mb-2 flex flex-row">
             <input 

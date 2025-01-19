@@ -25,7 +25,7 @@ export default function SearchableTable() {
     }
 
     return (
-        <div style={{maxWidth:'90%', justifySelf:"center"}}>
+        <div style={{maxWidth:'90%', width: "90%", justifySelf:"center"}}>
             <SearchBar setNameFilter={setNameFilter} toggleTracked={toggleShowTracked}/>
             <ExamsTable displayedExams={displayedExams} nameFilter={nameFilter} showTracked={showTracked}/>
         </div>

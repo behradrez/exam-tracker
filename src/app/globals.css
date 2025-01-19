@@ -9,15 +9,22 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
+    --background: #89a695;
     --foreground: #ededed;
   }
+}
+th {
+  background:#70bdb4;
 }
 
 body {
   color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+body::-webkit-scrollbar{
+  display: none;
 }
 
 ::-webkit-scrollbar {

@@ -21,6 +21,9 @@ model Exam {
   building          String?
   room              String?
   rows              String?
+  row_start         String?
+  row_end           String?
+  section           String?
   UserFavoritedExam UserFavoritedExam[]
 }
 
