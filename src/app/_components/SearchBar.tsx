@@ -1,21 +1,34 @@
 import { ChangeEvent } from "react";
-import { getAllExams } from "../(api)/actions";
 
 interface SearchBarProps {
     setNameFilter: Function
+    toggleTracked: Function
 }
 
-export default function SearchBar({setNameFilter} : SearchBarProps) {
-    const handleFilterChange = (e: ChangeEvent) => {
-        console.log(e);
-        setNameFilter(e);
+export default function SearchBar({setNameFilter, toggleTracked} : SearchBarProps) {
+    const handleFilterChange = (filter:string) => {
+        setNameFilter(filter.toLowerCase());
     }
+    
 
     return (
-        <>
-        <div>
-            <input type="text" className="text-black" onChange={(e)=>setNameFilter(e.target.value)} />
+        <div className="justify-self-center mb-2 flex flex-row">
+            <input 
+            type="text"
+            placeholder="Start by typing an exam course code/name" 
+            className="text-black w-96 rounded-xl text-center italic" 
+            onChange={(e)=>handleFilterChange(e.target.value)} />
+            <input
+            id='favorites'
+            type="checkbox"
+            className="w-7 h-7 ml-4"
+            onChange={(e)=>toggleTracked()}/>
+            <label 
+            htmlFor="favorites"
+            className="ml-1 mr-2 pt-0.5">
+                Show Tracked Only
+                </label>
+
         </div>
-        </>
     )
 }

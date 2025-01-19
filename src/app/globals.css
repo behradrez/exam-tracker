@@ -19,3 +19,21 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 0px;
+  transform: rotate(360);
+}
+
+::-webkit-scrollbar-track {
+  background: #aaadab;
+  border-top-right-radius: 10;
+  border-bottom-right-radius: 10;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rosybrown;
+  border-top-right-radius: 10;
+  border-bottom-right-radius: 10;
+}

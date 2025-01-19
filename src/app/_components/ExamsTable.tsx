@@ -5,36 +5,33 @@ import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon  from "@mui/icons-material/StarBorder"
 import { useEffect, useState } from "react";
 import { Box } from "@mui/material";
+import { Exam } from "@/types/exam";
 
 
 
-export type Exam = {
-    id: bigint;
-    created_at: Date;
-    exam_start: Date | null;
-    exam_end: Date | null;
-    course_code: string | null;
-    course_name: string | null;
-    exam_type: string | null;
-    building: string | null;
-    room: string | null;
-    rows: string | null;
-};
 
 interface ExamsTableProps {
     displayedExams: Exam[];
     nameFilter: string
+    showTracked: boolean
 }
 
-export default function ExamsTable({displayedExams, nameFilter}: ExamsTableProps) { 
-    
+export default function ExamsTable({displayedExams, nameFilter, showTracked}: ExamsTableProps) { 
+
+    const is_tracked = (id:bigint) => {
+        return localStorage.getItem(id.toString()) != null;
+    }
+
     const examToRow = (exams:typeof displayedExams) => {
         return exams.map((exam, index)=>{
-            if(nameFilter != '' && !exam.course_name?.includes(nameFilter) && !exam.course_code?.includes(nameFilter)){
+            const combinedCourseCode = exam.course_code?.replace(' ', '').toLowerCase();
+            if(nameFilter != '' 
+                && !exam.course_name?.toLowerCase().includes(nameFilter) 
+                && !combinedCourseCode?.includes(nameFilter)){
                 return;
             }
             return ({
-                id: index,
+                id: exam.id,
                 Code: exam.course_code,
                 Name: exam.course_name,
                 'Start Time': exam.exam_start,
@@ -43,25 +40,29 @@ export default function ExamsTable({displayedExams, nameFilter}: ExamsTableProps
                 Building: exam.building,
                 Room: exam.room,
                 Rows: exam.rows,
-                Tracked: exam.course_code != null && localStorage.getItem(exam.course_code) != null
+                Tracked: is_tracked(exam.id)
             })
         })
     }
     
     const [rows, setRows] = useState(examToRow(displayedExams));
     useEffect(()=>{
-        setRows(examToRow(displayedExams).filter(row => row !== undefined))
-    },[displayedExams, nameFilter])
+        if(showTracked){
+            setRows(examToRow(displayedExams).filter(row => row !== undefined && is_tracked(row.id)))
+        }else{
+            setRows(examToRow(displayedExams).filter(row => row !== undefined))
+        }
+    },[displayedExams, nameFilter, showTracked])
 
-    const handleToggleTracked = (course_code:string) => {
+    const handleToggleTracked = (id:bigint) => {
         setRows((prevRows)=>
                     prevRows.filter(row => row !== undefined).map((row) =>{
-                    if(row!.Code === course_code){
-                        if(row!.Tracked){
-                            localStorage.removeItem(row!.Code!);
-                        }else{
-                            localStorage.setItem(row!.Code!, "Tracked");
-                        }
+                        if(row.id === id){
+                            if(row!.Tracked){
+                                localStorage.removeItem(row.id.toString());
+                            }else{
+                                localStorage.setItem(row.id.toString(), "Tracked");
+                            }
                         return {...row, Tracked: !row!.Tracked};
                     }
                     return row;
@@ -70,36 +71,51 @@ export default function ExamsTable({displayedExams, nameFilter}: ExamsTableProps
 
     
     const keys = ['Code', 'Name', 'Start Time', 'End Time', 'Exam Type', 'Building', 'Room', 'Rows'];
+    if(rows.length == 0){
+        return (
+            <div className="justify-self-center">
+                No exams found matching the filter.
+            </div>
+        )
+    }
     return (
-        <Box sx={{ maxHeight: 200, overflowY: 'auto', position: 'relative' }}>
-            <table style={{ position: 'sticky', top: 0, backgroundColor: 'white', zIndex: 1 }}></table>
-            <table >
+        
+        <Box sx={{ scrollbarColor:"",justifySelf:"center" ,maxHeight: 700, maxWidth: '100%', overflowY: 'auto', position: 'relative', borderRadius:2}}>
+            <table className="w-fit">
             <thead style={{position:'sticky'}}>
                 <tr>
                 {keys.map((col,idx) => <th key={idx} className="bg-lime-600 px-5 sticky top-0">{col}</th>)}
-                <th className="bg-lime-600 px-5 sticky top-0">Tracked</th>
+                <th className="bg-lime-600 px-5 sticky top-0">Tracking</th>
                 </tr>
             </thead>
             <tbody>
                 {rows.filter(row => row !== undefined).map((row: { [key: string]: any }, idx) => (
-                <tr className={"h-16 items-center justify-center text-center "+(idx % 2 === 0 ? "bg-amber-700" : "bg-amber-500")} key={row.Code}>
+                <tr className={"h-16 items-center justify-center text-center "+(idx % 2 === 0 ? "bg-cyan-900" : "bg-cyan-700")} key={idx}>
                     {keys.map((key)=>{
-                        
+                        if(key === 'Start Time' || key === 'End Time'){
+                            return (
+                                <td key={key}>
+                                    {(row[key]?.toString().slice(0, -32) || '')}
+                                </td>
+                            )
+                        }
                         return (
                         <td key={key}>
-                            {row[key]?.toString()}
+                            {row[key]?.toString() || ' '}
                         </td>)
                     })}
                     <td>
-                    {row.Code != null && localStorage.getItem(row.Code) != null
-                        ? <StarIcon onClick={() => handleToggleTracked(row.Code || '')} />
-                        : <StarBorderIcon onClick={() => handleToggleTracked(row.Code || '')} />
+
+                    {row.Code != null && is_tracked(row.id)
+                        ? <StarIcon style={{color:"yellow"}}  onClick={() => handleToggleTracked(row.id)} />
+                        : <StarBorderIcon onClick={() => handleToggleTracked(row.id)} />
                     }
                     </td>
                 </tr>
                 ))}
             </tbody>
             </table>
+
         </Box>
     )
 }

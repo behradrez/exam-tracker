@@ -9,6 +9,8 @@ import { Exam } from "@/types/exam";
 export default function SearchableTable() {
     const [nameFilter, setNameFilter] = useState('')
     const [displayedExams, setDisplayedExams] = useState<Exam[]>([]);
+    const [showTracked, setShowTracked] = useState(false);
+
 
     useEffect(()=>{
         async function fetchExams() {
@@ -18,10 +20,14 @@ export default function SearchableTable() {
         fetchExams();
     },[]);
 
+    const toggleShowTracked = () => {
+        setShowTracked(!showTracked);
+    }
+
     return (
-        <>
-        <SearchBar setNameFilter={setNameFilter}/>
-        <ExamsTable displayedExams={displayedExams} nameFilter={nameFilter}/>
-        </>
+        <div style={{maxWidth:'90%', justifySelf:"center"}}>
+            <SearchBar setNameFilter={setNameFilter} toggleTracked={toggleShowTracked}/>
+            <ExamsTable displayedExams={displayedExams} nameFilter={nameFilter} showTracked={showTracked}/>
+        </div>
     )
 }

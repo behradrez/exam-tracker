@@ -1,19 +1,17 @@
 
-import { attemptCreateAccount, getAllExams } from "./(api)/actions";
+import { getAllExams } from "./(api)/actions";
 import ClientButton from "./_components/clickableButton";
-import { Exam } from "@/types/exam";
 import SearchableTable from "./_components/SearchableTable";
 
 export default function Home() {
 
-  
   return (
     
     <div className=" items-center justify-items-center">
       <main>
         <div className="my-10 mt-16"> 
-          <h1>McGill MyExams - Simpler Exam Tracking</h1>
-          <h4>One-stop shop for all your exams details</h4>
+          <h1>McGill MyExams</h1>
+          <h4>Simpler Exam Tracking</h4>
         </div>
         <div>
           <SearchableTable/>
