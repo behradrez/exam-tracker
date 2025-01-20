@@ -86,7 +86,7 @@ export default function ExamsTable({displayedExams, nameFilter, showTracked}: Ex
             </thead>
             <tbody>
                 {rows.filter(row => row !== undefined).map((row: { [key: string]: any }, idx) => (
-                <tr style={idx%2==0 ? { background:'#997a80'  } : {background: "#a4b5c3"}}className={"h-16 items-center justify-center text-center "} key={idx}>
+                <tr style={idx%2==0 ? { background:'#7f0a27'  } : {background: "#7e394a"}}className={"h-16 items-center justify-center text-center "} key={idx}>
                     {keys.map((key)=>{
                         if(key === 'Start Time' || key === 'End Time'){
                             return (
