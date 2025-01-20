@@ -13,7 +13,7 @@ export default function SearchBar({setNameFilter, toggleTracked} : SearchBarProp
             <input 
             type="text"
             placeholder="Start by typing an exam course code/name" 
-            className="text-black w-96 rounded-xl text-center italic" 
+            className="text-black w-96 rounded-xl text-center italic text-xs md:text-lg" 
             onChange={(e)=>handleFilterChange(e.target.value)} />
             <input
             id='favorites'
@@ -22,9 +22,9 @@ export default function SearchBar({setNameFilter, toggleTracked} : SearchBarProp
             onChange={(e)=>toggleTracked()}/>
             <label 
             htmlFor="favorites"
-            className="ml-1 mr-2 pt-0.5 text-black font-serif font-medium">
+            className="ml-1 md:mr-2 pt-0.5 text-black font-serif font-medium text-xs sm:text-base">
                 Show Tracked Only
-                </label>
+            </label>
 
         </div>
     )
