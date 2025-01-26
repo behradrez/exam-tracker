@@ -5,7 +5,7 @@ interface SearchBarProps {
 
 export default function SearchBar({setNameFilter, toggleTracked} : SearchBarProps) {
     const handleFilterChange = (filter:string) => {
-        setNameFilter(filter.toLowerCase());
+        setNameFilter(filter.replace(' ','').toLowerCase());
     }
     
     return (

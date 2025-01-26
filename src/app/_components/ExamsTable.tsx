@@ -21,8 +21,9 @@ export default function ExamsTable({displayedExams, nameFilter, showTracked}: Ex
     const examToRow = (exams:typeof displayedExams) => {
         return exams.map((exam)=>{
             const combinedCourseCode = exam.course_code?.replace(' ', '').toLowerCase();
+            const combinedCourseName = exam.course_name.replace(' ','').toLowerCase();
             if(nameFilter != '' 
-                && !exam.course_name?.toLowerCase().includes(nameFilter) 
+                && !combinedCourseName.includes(nameFilter) 
                 && !combinedCourseCode?.includes(nameFilter)){
                 return;
             }
@@ -97,10 +98,18 @@ export default function ExamsTable({displayedExams, nameFilter, showTracked}: Ex
                 {rows.filter(row => row !== undefined).map((row: { [key: string]: any }, idx) => (
                 <tr style={idx%2==0 ? { background:'#7f0a27'  } : {background: "#7e394a"}}className={"h-16 items-center justify-center text-center "} key={idx}>
                     {keys.map((key)=>{
-                        if(key === 'Start Time' || key === 'End Time'){
+                        if((key === 'Start Time' || key === 'End Time')){
+                            const date = new Date(row[key]);                            
+                            const options = {
+                                timeZone: '-05:00',
+                                weekday: 'long' as 'long',
+                                year: 'numeric' as 'numeric',
+                                month: 'long' as 'long',
+                                day: 'numeric' as 'numeric',
+                              };
                             return (
                                 <td key={key}>
-                                    {(row[key]?.toString().slice(0, -32) || '')}
+                                    {date.toLocaleTimeString('en-US', options)}
                                 </td>
                             )
                         }

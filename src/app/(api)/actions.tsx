@@ -5,8 +5,6 @@ import { accountExists, createAccount, login, logout } from "@/repository/userRe
 
 export async function getExamsBySearchTerm(searchTerm: string) {
     const res =  await findExamBySearchTerm(searchTerm);
-    console.log(res);
-    console.log("Retrieved exams")
     return res;
 }
 

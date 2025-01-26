@@ -4,7 +4,7 @@ export type Exam = {
     exam_start: Date | null;
     exam_end: Date | null;
     course_code: string;
-    course_name: string | null;
+    course_name: string;
     exam_type: string | null;
     building: string | null;
     room: string | null;
