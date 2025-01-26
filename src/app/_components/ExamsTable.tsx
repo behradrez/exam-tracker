@@ -14,8 +14,8 @@ interface ExamsTableProps {
 
 export default function ExamsTable({displayedExams, nameFilter, showTracked}: ExamsTableProps) { 
 
-    const is_tracked = (id:bigint) => {
-        return localStorage.getItem(id.toString()) != null;    
+    const is_tracked = (term:string) => {
+        return localStorage.getItem(term) != null;    
     }
 
     const examToRow = (exams:typeof displayedExams) => {
@@ -37,7 +37,7 @@ export default function ExamsTable({displayedExams, nameFilter, showTracked}: Ex
                 Building: exam.building,
                 Room: exam.room,
                 Rows: exam.rows,
-                Tracked: is_tracked(exam.id)
+                Tracked: is_tracked(exam.course_code + exam.section)
             })
         })
     }
@@ -45,20 +45,20 @@ export default function ExamsTable({displayedExams, nameFilter, showTracked}: Ex
     const [rows, setRows] = useState(examToRow(displayedExams));
     useEffect(()=>{
         if(showTracked){
-            setRows(examToRow(displayedExams).filter(row => row !== undefined && is_tracked(row.id)))
+            setRows(examToRow(displayedExams).filter(row => row !== undefined && is_tracked(row.Code+row.Section)))
         }else{
             setRows(examToRow(displayedExams).filter(row => row !== undefined))
         }
     },[displayedExams, nameFilter, showTracked])
 
-    const handleToggleTracked = (id:bigint) => {
+    const handleToggleTracked = (term:string) => {
         setRows((prevRows)=>
                     prevRows.filter(row => row !== undefined).map((row) =>{
-                        if(row.id === id){
+                        if(row.Code+row.Section == term){
                             if(row!.Tracked){
-                                localStorage.removeItem(row.id.toString());
+                                localStorage.removeItem(term);
                             }else{
-                                localStorage.setItem(row.id.toString(), "Tracked");
+                                localStorage.setItem(term, "Tracked");
                             }
                         return {...row, Tracked: !row!.Tracked};
                     }
@@ -103,9 +103,9 @@ export default function ExamsTable({displayedExams, nameFilter, showTracked}: Ex
                     })}
                     <td>
 
-                    {row.Code != null && is_tracked(row.id)
-                        ? <StarIcon style={{color:"yellow"}}  onClick={() => handleToggleTracked(row.id)} />
-                        : <StarBorderIcon onClick={() => handleToggleTracked(row.id)} />
+                    {row.Code != null && is_tracked(row.Code+row.Section)
+                        ? <StarIcon style={{color:"yellow"}}  onClick={() => handleToggleTracked(row.Code+row.Section)} />
+                        : <StarBorderIcon onClick={() => handleToggleTracked(row.Code+row.Section)} />
                     }
                     </td>
                 </tr>

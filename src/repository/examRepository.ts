@@ -3,7 +3,11 @@ import { PrismaClient } from "@prisma/client";
 const db = new PrismaClient();
 
 export async function findAllExams(){
-    return await db.exam.findMany();
+    return await db.exam.findMany({
+        orderBy:{
+            id:'asc'
+        }
+    });
 }
 
 export async function findExamBySearchTerm(searchTerm: string){
@@ -13,6 +17,9 @@ export async function findExamBySearchTerm(searchTerm: string){
                 {course_code: {contains:searchTerm}},
                 {course_name: {contains:searchTerm}}
             ]
+        },
+        orderBy:{
+            id: "asc"
         }
     })
 }
