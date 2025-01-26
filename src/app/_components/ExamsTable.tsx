@@ -65,16 +65,24 @@ export default function ExamsTable({displayedExams, nameFilter, showTracked}: Ex
                     return row;
                     }))
     }
-
     
-    const keys = ['Code',"Section", 'Name', 'Start Time', 'End Time', 'Exam Type', 'Building', 'Room', 'Rows'];
-    if(rows.length == 0){
+    if (displayedExams.length == 0) {
         return (
             <div className="justify-self-center text-black font-serif">
+                Loading exams...
+            </div>        
+            )
+        }
+        
+        if(rows.length == 0){
+            return (
+                <div className="justify-self-center text-black font-serif">
                 No exams found matching the filter.
             </div>
         )
     }
+    
+    const keys = ['Code',"Section", 'Name', 'Start Time', 'End Time', 'Exam Type', 'Building', 'Room', 'Rows'];
     return (
         
         <Box sx={{ boxShadow:"5", scrollbarColor:"",justifySelf:"center" ,maxHeight: 700, width: '100%', overflowY: 'auto', position: 'relative', borderRadius:2}}>
