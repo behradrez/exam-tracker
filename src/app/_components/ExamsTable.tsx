@@ -68,7 +68,7 @@ export default function ExamsTable({displayedExams, nameFilter, showTracked}: Ex
     
     if (displayedExams.length == 0) {
         return (
-            <div className="justify-self-center text-black font-serif">
+            <div className="justify-self-stretch text-center text-black font-serif">
                 Loading exams...
             </div>        
             )
@@ -76,7 +76,7 @@ export default function ExamsTable({displayedExams, nameFilter, showTracked}: Ex
         
         if(rows.length == 0){
             return (
-                <div className="justify-self-center text-black font-serif">
+                <div className="justify-self-stretch text-center text-black font-serif">
                 No exams found matching the filter.
             </div>
         )
