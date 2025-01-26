@@ -29,6 +29,7 @@ export default function ExamsTable({displayedExams, nameFilter, showTracked}: Ex
             return ({
                 id: exam.id,
                 Code: exam.course_code,
+                Section: exam.section,
                 Name: exam.course_name,
                 'Start Time': exam.exam_start,
                 'End Time': exam.exam_end,
@@ -66,7 +67,7 @@ export default function ExamsTable({displayedExams, nameFilter, showTracked}: Ex
     }
 
     
-    const keys = ['Code', 'Name', 'Start Time', 'End Time', 'Exam Type', 'Building', 'Room', 'Rows'];
+    const keys = ['Code',"Section", 'Name', 'Start Time', 'End Time', 'Exam Type', 'Building', 'Room', 'Rows'];
     if(rows.length == 0){
         return (
             <div className="justify-self-center text-black font-serif">

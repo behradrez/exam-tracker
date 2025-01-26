@@ -9,4 +9,5 @@ export type Exam = {
     building: string | null;
     room: string | null;
     rows: string | null;
+    section: String | null;
 };
