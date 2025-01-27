@@ -59,13 +59,15 @@ export async function createCalendar(exams: any[]){
                 summary: summary + " Opens",
                 description: description + " is available\nDue date is on "+end.toLocaleString('en-US',date_options),
                 start: start,
-                end: new Date(start.getTime() + 30 * 60000),
+                end: new Date(start.getTime() + 60 * 60000),
+                priority: 2
             })
             calendar.createEvent({
-                summary: summary + " Closes",
-                description: description + " is due in 1 hour at "+end.toLocaleTimeString('en-US',date_options),
+                summary: summary + " is due in 1 hour",
+                description: description + " is due soon at "+end.toLocaleTimeString('en-US',date_options),
                 start: new Date(end.getTime() - 60*60000),
                 end: end,
+                priority: 2
             })
         }else{
             calendar.createEvent({
@@ -73,7 +75,8 @@ export async function createCalendar(exams: any[]){
                 description: description,
                 start: start,
                 end: end,
-                location: location
+                location: location,
+                priority: 2
             })
         }
     })
