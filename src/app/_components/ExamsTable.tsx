@@ -5,6 +5,7 @@ import StarBorderIcon  from "@mui/icons-material/StarBorder"
 import { useEffect, useState } from "react";
 import { Box } from "@mui/material";
 import { Exam } from "@/types/exam";
+import { createCalendar } from '../(api)/actions';
 
 interface ExamsTableProps {
     displayedExams: Exam[];
@@ -12,7 +13,22 @@ interface ExamsTableProps {
     showTracked: boolean
 }
 
+
+
 export default function ExamsTable({displayedExams, nameFilter, showTracked}: ExamsTableProps) { 
+    const downloadCalendar = async () => {
+        var exams = rows.filter(e => e?.Tracked);
+        var calendarData = await createCalendar(exams);
+        const blob = new Blob([calendarData], { type: 'text/calendar' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'finals_schedule.ics';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    }
 
     const is_tracked = (term:string) => {
         return localStorage.getItem(term) != null;    
@@ -85,8 +101,8 @@ export default function ExamsTable({displayedExams, nameFilter, showTracked}: Ex
     
     const keys = ['Code',"Section", 'Name', 'Start Time', 'End Time', 'Exam Type', 'Building', 'Room', 'Rows'];
     return (
-        
-        <Box sx={{ boxShadow:"5", scrollbarColor:"",justifySelf:"center" ,maxHeight: 700, width: '100%', overflowY: 'auto', position: 'relative', borderRadius:2}}>
+        <>
+        <Box sx={{ zIndex:1, boxShadow:"5", scrollbarColor:"",justifySelf:"center" ,maxHeight: 700, width: '100%', overflowY: 'auto', position: 'relative', borderRadius:2}}>
             <table className="w-full shadow-2xl">
             <thead style={{position:'sticky'}}>
                 <tr>
@@ -101,7 +117,7 @@ export default function ExamsTable({displayedExams, nameFilter, showTracked}: Ex
                         if((key === 'Start Time' || key === 'End Time')){
                             const date = new Date(row[key]);                            
                             const options = {
-                                timeZone: '-05:00',
+                                timeZone: 'America/New_York',
                                 weekday: 'long' as 'long',
                                 year: 'numeric' as 'numeric',
                                 month: 'long' as 'long',
@@ -129,7 +145,8 @@ export default function ExamsTable({displayedExams, nameFilter, showTracked}: Ex
                 ))}
             </tbody>
             </table>
-
         </Box>
+    </>
+
     )
 }
