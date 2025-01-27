@@ -146,6 +146,12 @@ export default function ExamsTable({displayedExams, nameFilter, showTracked}: Ex
             </tbody>
             </table>
         </Box>
+        <div 
+        className="justify-self-end text-center text-black font-serif rounded-sm bg-gray-300
+        p-2 mt-1 mr-2 z-20 hover:scale-105"
+        onClick={downloadCalendar}>
+                Click to export favorites to iCal/Google Calendar
+            </div>
     </>
 
     )
