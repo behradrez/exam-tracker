@@ -122,7 +122,9 @@ export default function ExamsTable({displayedExams, nameFilter, showTracked}: Ex
                                 year: 'numeric' as 'numeric',
                                 month: 'long' as 'long',
                                 day: 'numeric' as 'numeric',
-                              };
+                                hour: "2-digit" as '2-digit',
+                                minute: "2-digit" as '2-digit'
+                            };
                             return (
                                 <td key={key}>
                                     {date.toLocaleTimeString('en-US', options)}
