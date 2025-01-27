@@ -1,7 +1,7 @@
 'use server'
 
 import { findAllExams, findExamBySearchTerm, findUserFavoritedExam,  } from "@/repository/examRepository";
-import { accountExists, createAccount, login, logout } from "@/repository/userRepository";
+import { accountExists, createAccount, login } from "@/repository/userRepository";
 import ical from "ical-generator";
 
 export async function getExamsBySearchTerm(searchTerm: string) {
@@ -11,7 +11,6 @@ export async function getExamsBySearchTerm(searchTerm: string) {
 
 export async function getAllExams(){
     const res = await findAllExams();
-    console.log(res);
     return res;
 }
 
@@ -80,6 +79,5 @@ export async function createCalendar(exams: any[]){
             })
         }
     })
-    console.log(calendar.toString());
     return calendar.toString();
 }
