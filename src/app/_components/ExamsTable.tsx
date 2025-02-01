@@ -5,7 +5,10 @@ import StarBorderIcon  from "@mui/icons-material/StarBorder"
 import { useEffect, useState } from "react";
 import { Box } from "@mui/material";
 import { Exam } from "@/types/exam";
+import { DisplayedExam } from '@/types/displayedExam';
 import { createCalendar } from '../(api)/actions';
+import ExamModal from './examModal';
+
 
 interface ExamsTableProps {
     displayedExams: Exam[];
@@ -16,6 +19,12 @@ interface ExamsTableProps {
 
 
 export default function ExamsTable({displayedExams, nameFilter, showTracked}: ExamsTableProps) { 
+    const [open, setOpen] = useState(false);
+    const handleModalClose = () => setOpen(false);
+    const handleModalOpen = (exam:any) => {setSelectedExam(exam);setOpen(true)};
+    const [selectedExam, setSelectedExam] = useState<any | null>(null); 
+
+
     const downloadCalendar = async () => {
         var exams = rows.filter(e => e?.Tracked);
         var calendarData = await createCalendar(exams);
@@ -59,12 +68,38 @@ export default function ExamsTable({displayedExams, nameFilter, showTracked}: Ex
         })
     }
     
-    const [rows, setRows] = useState(examToRow(displayedExams));
+    const examToDisplayedExam = (exams: typeof displayedExams): DisplayedExam[] => {
+        return exams.map((exam) => {
+            const combinedCourseCode = exam.course_code.replace(' ', '').toLowerCase();
+            const combinedCourseName = exam.course_name.replace(' ', '').toLowerCase();
+            if (nameFilter != ''
+                && !combinedCourseName.includes(nameFilter)
+                && !combinedCourseCode?.includes(nameFilter)) {
+                return null;
+            }
+            return {
+                id: exam.id,
+                Code: exam.course_code,
+                Section: exam.section,
+                Name: exam.course_name,
+                'Start Time': exam.exam_start,
+                'End Time': exam.exam_end,
+                'Exam Type': exam.exam_type,
+                Building: exam.building,
+                Room: exam.room,
+                Rows: exam.rows,
+                Tracked: is_tracked(exam.course_code + exam.section)
+            } as DisplayedExam;
+        }).filter(exam => exam !== null) as DisplayedExam[];
+    }
+
+
+    const [rows, setRows] = useState(examToDisplayedExam(displayedExams));
     useEffect(()=>{
         if(showTracked){
-            setRows(examToRow(displayedExams).filter(row => row !== undefined && is_tracked(row.Code+row.Section)))
+            setRows(examToDisplayedExam(displayedExams).filter(row => row !== undefined && is_tracked(row.Code+row.Section)))
         }else{
-            setRows(examToRow(displayedExams).filter(row => row !== undefined))
+            setRows(examToDisplayedExam(displayedExams).filter(row => row !== undefined))
         }
     },[displayedExams, nameFilter, showTracked])
 
@@ -130,6 +165,13 @@ export default function ExamsTable({displayedExams, nameFilter, showTracked}: Ex
                                     {date.toLocaleTimeString('en-US', options)}
                                 </td>
                             )
+                        }else if(key === "Code"){
+                            return (
+                                <td className='underline underline-offset-2 decoration-wavy hover:cursor-pointer'
+                                key={key} onClick={()=>handleModalOpen(row)}>
+                                    {row[key]?.toString() || ''}
+                                </td>
+                            )
                         }
                         return (
                         <td key={key}>
@@ -154,6 +196,7 @@ export default function ExamsTable({displayedExams, nameFilter, showTracked}: Ex
         onClick={downloadCalendar}>
                 Click to export favorites to iCal/Google Calendar
             </div>
+        <ExamModal handleToggleTrack={handleToggleTracked} exam={selectedExam} open={open} handleClose={handleModalClose} />
     </>
 
     )
