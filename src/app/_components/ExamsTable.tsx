@@ -1,13 +1,13 @@
 'use client'
 
-import StarIcon from '@mui/icons-material/Star';
-import StarBorderIcon  from "@mui/icons-material/StarBorder"
+import LaunchIcon from '@mui/icons-material/Launch';
 import { useEffect, useState } from "react";
 import { Box } from "@mui/material";
 import { Exam } from "@/types/exam";
 import { DisplayedExam } from '@/types/displayedExam';
 import { createCalendar } from '../(api)/actions';
-import ExamModal from './examModal';
+import ExamModal from './ExamModal';
+import StarButton from './StarButton';
 
 
 interface ExamsTableProps {
@@ -15,8 +15,6 @@ interface ExamsTableProps {
     nameFilter: string
     showTracked: boolean
 }
-
-
 
 export default function ExamsTable({displayedExams, nameFilter, showTracked}: ExamsTableProps) { 
     const [open, setOpen] = useState(false);
@@ -41,31 +39,6 @@ export default function ExamsTable({displayedExams, nameFilter, showTracked}: Ex
 
     const is_tracked = (term:string) => {
         return localStorage.getItem(term) != null;    
-    }
-
-    const examToRow = (exams:typeof displayedExams) => {
-        return exams.map((exam)=>{
-            const combinedCourseCode = exam.course_code?.replace(' ', '').toLowerCase();
-            const combinedCourseName = exam.course_name.replace(' ','').toLowerCase();
-            if(nameFilter != '' 
-                && !combinedCourseName.includes(nameFilter) 
-                && !combinedCourseCode?.includes(nameFilter)){
-                return;
-            }
-            return ({
-                id: exam.id,
-                Code: exam.course_code,
-                Section: exam.section,
-                Name: exam.course_name,
-                'Start Time': exam.exam_start,
-                'End Time': exam.exam_end,
-                'Exam Type': exam.exam_type,
-                Building: exam.building,
-                Room: exam.room,
-                Rows: exam.rows,
-                Tracked: is_tracked(exam.course_code + exam.section)
-            })
-        })
     }
     
     const examToDisplayedExam = (exams: typeof displayedExams): DisplayedExam[] => {
@@ -137,12 +110,12 @@ export default function ExamsTable({displayedExams, nameFilter, showTracked}: Ex
     const keys = ['Code',"Section", 'Name', 'Start Time', 'End Time', 'Exam Type', 'Building', 'Room', 'Rows'];
     return (
         <>
-        <Box sx={{ zIndex:1, boxShadow:"5", scrollbarColor:"",justifySelf:"center" ,maxHeight: 700, width: '100%', overflowY: 'auto', position: 'relative', borderRadius:2}}>
+        <Box sx={{boxShadow:"5", scrollbarColor:"",justifySelf:"center" ,maxHeight: 700, width: '100%', overflowY: 'auto', position: 'relative', borderRadius:2}}>
             <table className="w-full shadow-2xl">
-            <thead style={{position:'sticky'}}>
+            <thead style={{position:'sticky', zIndex:99}}>
                 <tr>
                 {keys.map((col,idx) => <th key={idx} style={{background: "#293039"}} className="h-14 px-5 sticky top-0">{col}</th>)}
-                <th style={{background: "#293039"}} className="h-14 px-5 sticky top-0">Tracking</th>
+                <th style={{background: "#293039", zIndex:99}} className="h-14 px-5 sticky top-0">Tracking</th>
                 </tr>
             </thead>
             <tbody>
@@ -161,29 +134,26 @@ export default function ExamsTable({displayedExams, nameFilter, showTracked}: Ex
                                 minute: "2-digit" as '2-digit'
                             };
                             return (
-                                <td key={key}>
+                                <td key={key} className='py-2'>
                                     {date.toLocaleTimeString('en-US', options)}
                                 </td>
                             )
                         }else if(key === "Code"){
                             return (
-                                <td className='underline underline-offset-2 decoration-wavy hover:cursor-pointer'
+                                <td className='justify-self-center hover:cursor-pointer whitespace-nowrap '
                                 key={key} onClick={()=>handleModalOpen(row)}>
                                     {row[key]?.toString() || ''}
+                                    <LaunchIcon sx={{width:"15px", marginLeft:"3px"}} fontSize='small'/>
                                 </td>
                             )
                         }
                         return (
-                        <td key={key}>
+                        <td key={key} className='py-2'>
                             {row[key]?.toString() || ' '}
                         </td>)
                     })}
                     <td>
-
-                    {row.Code != null && is_tracked(row.Code+row.Section)
-                        ? <StarIcon style={{color:"yellow"}}  onClick={() => handleToggleTracked(row.Code+row.Section)} />
-                        : <StarBorderIcon onClick={() => handleToggleTracked(row.Code+row.Section)} />
-                    }
+                    <StarButton id={row.Code+row.Section} handleToggleTrack={handleToggleTracked} isTracked={is_tracked}/>
                     </td>
                 </tr>
                 ))}

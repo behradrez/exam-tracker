@@ -4,7 +4,8 @@ import Modal from '@mui/material/Modal';
 import { DisplayedExam } from '@/types/displayedExam';
 import { useEffect, useState } from 'react';
 import Fade from '@mui/material/Fade';
-
+import LaunchIcon from '@mui/icons-material/Launch';
+import TrackButton from './TrackExamButton';
 
 interface ExamModalProps {
     exam: DisplayedExam | null
@@ -92,11 +93,11 @@ export default function ExamModal({exam, open, handleClose, handleToggleTrack}: 
                 <div className='underline underline-offset-2 my-5'>
                     <a href={getCourseLink(exam)}>
                         View Course Information
+                    <LaunchIcon />
                     </a>
                 </div>
-                <div className='bg-slate-500 justify-self-end rounded-lg text-center px-4 indent-0'
-                onClick={()=>{setExamTracked(!examTracked);handleToggleTrack(exam.Code+exam.Section);}}>
-                   {examTracked ? 'Untrack Exam' : 'Add to Tracked Exams' } 
+                <div className='justify-self-end px-4 indent-0 rounded-lg'>
+                    <TrackButton id={exam.Code+exam.Section} isTracked={examTracked} handleToggleTrack={()=>{setExamTracked(!examTracked);handleToggleTrack(exam.Code+exam.Section)}}/>
                 </div>
             </div> 
             }

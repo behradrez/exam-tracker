@@ -62,7 +62,7 @@ body::-webkit-scrollbar{
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rosybrown;
-  border-top-right-radius: 10;
+  background: #9E2A2B;
+  border-radius: 10;
   border-bottom-right-radius: 10;
 }
