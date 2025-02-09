@@ -90,13 +90,13 @@ export default function ExamModal({exam, open, handleClose, handleToggleTrack}: 
                 <div>
                     Rows: {exam.Rows === null ? 'Unavailable' : exam.Rows} {exam.RowStart != null && exam.RowEnd != null && 'from '+exam.RowStart+' to '+exam.RowEnd}
                 </div>
-                <div className='underline underline-offset-2 my-5'>
-                    <a href={getCourseLink(exam)}>
+                <div className='flex justify-center md:justify-start underline underline-offset-2 my-5'>
+                    <a className="justify-self-center" href={getCourseLink(exam)}>
                         View Course Information
                     <LaunchIcon />
                     </a>
                 </div>
-                <div className='justify-self-end px-4 indent-0 rounded-lg'>
+                <div className='justify-self-center flex justify-center md:justify-start md:justify-self-end indent-0 rounded-lg'>
                     <TrackButton id={exam.Code+exam.Section} isTracked={examTracked} handleToggleTrack={()=>{setExamTracked(!examTracked);handleToggleTrack(exam.Code+exam.Section)}}/>
                 </div>
             </div> 

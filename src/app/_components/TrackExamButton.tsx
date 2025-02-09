@@ -46,12 +46,13 @@ const TrackButton = ({ id, isTracked, handleToggleTrack }:TrackButtonProps) => {
   }, [particles]);
 
   return (
-    <div className="justify-self-end whitespace-nowrap rounded-lg font-semibold" 
-    style={{ position: "relative", display: "inline-block" }}>
+    <div className="justify-self-center md:justify-self-end whitespace-nowrap rounded-lg font-semibold" 
+    style={{ position: "relative", display: "inline-block"}}>
       <motion.button
         onClick={handleClick}
+        className="md:py-5"
         style={{
-          padding: "5px 20px",
+          padding: "5px",
           cursor: "pointer",
           borderRadius: "8px",
           border: "none",
