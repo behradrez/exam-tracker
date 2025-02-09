@@ -1,4 +1,6 @@
-import { PrismaClient } from "@prisma/client";
+// No longer using accounts to store info
+
+/*import { PrismaClient } from "@prisma/client";
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
@@ -28,7 +30,6 @@ export async function createAccount(username:string, email:string, password:stri
             }
         }
     )
-    console.log(res);
     
     return res;
 }
@@ -87,6 +88,4 @@ export async function logout(sessionId:number){
         }
     )
     return res;
-}
-
-
+}*/
