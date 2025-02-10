@@ -6,10 +6,13 @@ export default function Header(){
         <h1 className=" font-serif font-black text-7xl mb-2">McGill MyExams</h1>
         
         <h4 className="pl-2 font-serif text-slate-300 font-medium text-2xl md:text-3xl mb-2">
-            <AnimateWords className="text-3xl text-white font-medium" words={["Your Exams", "Your Schedule","All in One Place"]}/>
+            <AnimateWords 
+            className="text-3xl text-white font-medium" 
+            words={["Your Exams", "Your Schedule","All in One Place"]}
+            />
         </h4>
         
-        <h6 className="pl-2 font-serif text-md">McGill exams made simple—view, track, and export with ease.</h6>
+        <h6 className="pl-2 font-serif text-md">McGill exams made simple — view, track, and export with ease.</h6>
     </div>
     )
 }

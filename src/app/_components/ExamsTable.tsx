@@ -8,6 +8,7 @@ import { DisplayedExam } from '@/types/displayedExam';
 import { createCalendar } from '../(api)/actions';
 import ExamModal from './ExamModal';
 import StarButton from './StarButton';
+import DownloadButton from './DownloadButton';
 
 
 interface ExamsTableProps {
@@ -160,12 +161,9 @@ export default function ExamsTable({displayedExams, nameFilter, showTracked}: Ex
             </tbody>
             </table>
         </Box>
-        <div 
-        className="justify-self-end text-center text-black font-serif rounded-md bg-slate-300
-        p-2 mt-1 md:mr-2 z-20 hover:scale-105 hover:bg-slate-400"
-        onClick={downloadCalendar}>
-                Click to export favorites to iCal/Google Calendar
-            </div>
+        <div className='justify-self-end text-center font-serif rounded-md'>
+            <DownloadButton onDownload={downloadCalendar}/>
+        </div>
         <ExamModal handleToggleTrack={handleToggleTracked} exam={selectedExam} open={open} handleClose={handleModalClose} />
     </>
 
