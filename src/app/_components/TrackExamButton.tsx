@@ -4,7 +4,7 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 
 interface TrackButtonProps {
-    id:string;
+    id:number;
     handleToggleTrack: ()=>void;
     isTracked: boolean;
 }
@@ -56,7 +56,7 @@ const TrackButton = ({ id, isTracked, handleToggleTrack }:TrackButtonProps) => {
           cursor: "pointer",
           borderRadius: "8px",
           border: "none",
-          backgroundColor: isTracked? "#FFCE1B" : "#64748B",
+          backgroundColor: isTracked && id % 2 == 1 ? "#FF9900" : isTracked ? "#DBA400"  :  "#64748B",
           color: "white",
           position: "relative",
           overflow: "hidden",

@@ -53,7 +53,7 @@ export default function ExamModal({exam, open, handleClose, handleToggleTrack}: 
         >
             <Fade in={open}>
             <div
-            style={(Number(exam?.id) % 2 === 0 ? { background:'#7f0a27' } : { background: "#7e394a" })}
+            style={(Number(exam?.id) % 2 === 1 ? { background:'#7f0a27' } : { background: "#7e394a" })}
             className='w-full mt-8 md:mt-0 py-4 rounded-lg'
             >
             
@@ -97,7 +97,7 @@ export default function ExamModal({exam, open, handleClose, handleToggleTrack}: 
                     </a>
                 </div>
                 <div className='justify-self-center flex justify-center md:justify-start md:justify-self-end indent-0 rounded-lg'>
-                    <TrackButton id={exam.Code+exam.Section} isTracked={examTracked} handleToggleTrack={()=>{setExamTracked(!examTracked);handleToggleTrack(exam.Code+exam.Section)}}/>
+                    <TrackButton id={Number(exam.id)} isTracked={examTracked} handleToggleTrack={()=>{setExamTracked(!examTracked);handleToggleTrack(exam.Code+exam.Section)}}/>
                 </div>
             </div> 
             }
